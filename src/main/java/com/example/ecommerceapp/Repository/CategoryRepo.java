@@ -1,0 +1,8 @@
+package com.example.ecommerceapp.Repository;
+
+import com.example.ecommerceapp.Entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepo extends JpaRepository<Category,Long> {
+    Category findByName(String name);
+}

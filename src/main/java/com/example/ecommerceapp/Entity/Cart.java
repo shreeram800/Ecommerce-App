@@ -1,32 +1,29 @@
 package com.example.ecommerceapp.Entity;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Entity
+@Table(name = "cart")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+@AllArgsConstructor
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String name;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
 
-    public Category(String name) {
-        this.name = name;
-    }
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 }

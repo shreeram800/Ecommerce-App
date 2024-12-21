@@ -5,28 +5,28 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.sql.Blob;
-import java.sql.Timestamp;
+
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Image {
+public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     private String name;
-    private  String fileType;
 
-    @Lob
-    private Blob image;
-    private  String downloadUrl;
+    private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private String phoneNumber;
 
-    private Timestamp downloadTime;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
+
+
 }

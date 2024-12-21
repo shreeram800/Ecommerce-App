@@ -1,8 +1,9 @@
 package com.example.ecommerceapp.Service;
-
-import com.example.ecommerceapp.Entity.Category;
 import com.example.ecommerceapp.Entity.Product;
 import com.example.ecommerceapp.Exceptions.ProductNotFoundException;
+import com.example.ecommerceapp.requests.AddProductRequest;
+import com.example.ecommerceapp.requests.UpdateProductRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -10,19 +11,19 @@ import java.util.List;
 public interface ProductService {
 
 
-    void addProduct(Product product);
-    Product getProductById(Long id) throws ProductNotFoundException;
+    Product addProduct(AddProductRequest product);
+    ResponseEntity<?> getProductById(Long id) throws ProductNotFoundException;
 
-    void deleteProductById(Long id);
+    String deleteProductById(Long id);
 
-    void updateProductById(Product product, Long id);
+    Product updateProductById(UpdateProductRequest product, Long id);
 
-    List<Product> getAllProducts();
+    ResponseEntity<?> getAllProducts();
     List<Product> getAllProductsByCategory(String category);
 
     List<Product> getAllProductByBrand(String Brand);
 
-    List<Product> getAllProductByBrandAndCategory(String brand, Category category);
+    List<Product> getAllProductByBrandAndCategory(String brand, String category);
 
     Product getProductByName(String name);
 
