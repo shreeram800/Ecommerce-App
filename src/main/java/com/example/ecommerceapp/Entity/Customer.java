@@ -1,11 +1,11 @@
 package com.example.ecommerceapp.Entity;
 
+import com.example.ecommerceapp.Entity.Enums.Age;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
 
 @Getter
@@ -21,6 +21,12 @@ public class Customer {
 
     private String name;
 
+    private String surname;
+
+    private String address;
+
+    private Age age;
+
     private String email;
 
     private String phoneNumber;
@@ -29,4 +35,6 @@ public class Customer {
     private List<Order> orders;
 
 
+    public Customer(String name, String surname, String address, String age, String email, String phoneNumber) {
+    }
 }

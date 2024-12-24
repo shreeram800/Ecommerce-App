@@ -1,17 +1,14 @@
 package com.example.ecommerceapp.Exceptions;
 
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Getter
+@ResponseStatus(HttpStatus.NOT_FOUND)
 public class ProductNotFoundException extends RuntimeException {
 
-    private final HttpStatus status;
-
-    public ProductNotFoundException(HttpStatus status, String message) {
+    public ProductNotFoundException(String message) {
         super(message);
-        this.status = status;
     }
 
 }

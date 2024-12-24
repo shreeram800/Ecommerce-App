@@ -1,8 +1,6 @@
 package com.example.ecommerceapp.requests;
-import com.example.ecommerceapp.Entity.Category;
 import lombok.Data;
 import java.math.BigDecimal;
-
 
 @Data
 public class AddProductRequest {
@@ -12,5 +10,4 @@ public class AddProductRequest {
     private int inventory;
     private String description;
     private String category;
-
 }

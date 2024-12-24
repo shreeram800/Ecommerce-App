@@ -26,6 +26,7 @@ public class CustomProduct {
 
     @Nullable
     private String size;
+
     @Nullable
     private String color;
 
