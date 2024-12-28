@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -54,6 +55,7 @@ public class ProductServiceImp implements ProductService {
         return ResponseEntity.ok(product);
     }
 
+    @Transactional
     @Override
     public String deleteProductById(Long id) {
 
@@ -66,6 +68,7 @@ public class ProductServiceImp implements ProductService {
         return "Product with ID " + id + " deleted successfully";
     }
 
+    @Transactional
     @Override
     public Product updateProductById(UpdateProductRequest request, Long id) {
         validateProductExists(id);
@@ -162,6 +165,7 @@ public class ProductServiceImp implements ProductService {
         return product;
     }
 
+
     public Product getProductByNameAndBrand(String name, String brand) {
         if ((name == null || name.isEmpty()) || (brand == null || brand.isEmpty())) {
             throw new IllegalArgumentException("Product name and brand cannot be null or empty");
@@ -178,7 +182,6 @@ public class ProductServiceImp implements ProductService {
         if ((name == null || name.isEmpty()) || (brand == null || brand.isEmpty())) {
             throw new IllegalArgumentException("Product name and brand cannot be null or empty");
         }
-
         return productRepo.countByNameAndBrand(name, brand);
     }
 }

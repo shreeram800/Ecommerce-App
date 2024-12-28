@@ -1,18 +1,20 @@
 package com.example.ecommerceapp.Service;
 
-import com.example.ecommerceapp.Entity.Customer;
+import com.example.ecommerceapp.Entity.User;
 import com.example.ecommerceapp.requests.AddCustomerRequest;
 import com.example.ecommerceapp.requests.UpdateCustomerRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface CustomerService {
 
-    List<Customer> getAllCustomer();
+    List<User> getAllCustomer();
 
-    Customer getCustomerById(Long id);
+    User getCustomerById(Long id);
 
-    Customer updateCustomer(UpdateCustomerRequest request, Long id);
+    User updateCustomer(UpdateCustomerRequest request, Long id);
 
-    Customer addCustomer(AddCustomerRequest customer);
+    User addCustomer(AddCustomerRequest customer);
+    ResponseEntity<?> deleteCustomer(Long id);
 }

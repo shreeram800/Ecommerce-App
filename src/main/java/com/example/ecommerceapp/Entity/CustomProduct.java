@@ -1,36 +1,40 @@
 package com.example.ecommerceapp.Entity;
 
-
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class CustomProduct {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Product product;
+    private String name;
 
-    private Integer quantity;
-
-    @Nullable
-    private String size;
-
-    @Nullable
-    private String color;
+    private String description;
 
     private Double price;
 
+    private Integer quantity;
+
+    private String imageUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "original_product")
+    private Product originalProduct;
+    public CustomProduct(String name, String description, Double price, Integer quantity, String imageUrl, Product originalProduct) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.quantity = quantity;
+        this.imageUrl = imageUrl;
+        this.originalProduct = originalProduct;
+    }
 
 }
