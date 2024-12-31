@@ -1,8 +1,10 @@
 package com.example.ecommerceapp.Service.implimentations;
 import com.example.ecommerceapp.Entity.User;
 import com.example.ecommerceapp.Exceptions.CustomerNotFoundException;
+import com.example.ecommerceapp.Exceptions.UserException;
 import com.example.ecommerceapp.Repository.UserRepository;
-import com.example.ecommerceapp.Service.CustomerService;
+import com.example.ecommerceapp.Service.UserService;
+import com.example.ecommerceapp.config.JwtProvider;
 import com.example.ecommerceapp.requests.AddCustomerRequest;
 import com.example.ecommerceapp.requests.UpdateCustomerRequest;
 import jakarta.transaction.Transactional;
@@ -14,15 +16,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserServiceImp implements CustomerService {
-    private final UserRepository customerRepo;
+public class UserServiceImp implements UserService {
+    private UserRepository customerRepo;
 
-    public UserServiceImp(UserRepository customerRepo) {
+    private JwtProvider jwtProvider;
+
+    public UserServiceImp(UserRepository customerRepo, JwtProvider jwtProvider) {
         this.customerRepo = customerRepo;
+        this.jwtProvider = jwtProvider;
     }
 
     @Override
@@ -32,6 +36,7 @@ public class UserServiceImp implements CustomerService {
 
     @Override
     public User getCustomerById(Long id) {
+
         return customerRepo.findById(id).orElseThrow(()->new
                 CustomerNotFoundException("User by id: "+ id + " does not found."));
     }
@@ -92,6 +97,18 @@ public class UserServiceImp implements CustomerService {
         }
         customerRepo.deleteById(id);
         return ResponseEntity.ok("User deleted successfully.");
+    }
+
+    @Override
+    public User findUserProfileByJwt(String jwt) throws UserException {
+
+        String email= jwtProvider.getEmailFromToken(jwt);
+        User user= customerRepo.findByEmail(email);
+
+        if(user==null){
+            throw new UserException("user not found with email"+ email);
+        }
+        return user;
     }
 
     public UserDetails loadUserByEmail(String userName) throws UsernameNotFoundException {

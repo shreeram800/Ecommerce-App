@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -45,6 +46,9 @@ public class Product {
     @Column(nullable = true)
     private String color;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Review> reviews = new ArrayList<>();
@@ -54,15 +58,45 @@ public class Product {
     @JsonBackReference
     private Category category;
 
+    @Column(name = "discounted_price")
+    private BigDecimal discountedPrice;
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
-    public Product(String name, String brand, BigDecimal price, int inventory, String description, Category category) {
-        this.name = name;
-        this.brand = brand;
-        this.price = price;
-        this.inventory = inventory;
-        this.description = description;
-        this.category = category;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return discountPercentage == product.discountPercentage && Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(brand, product.brand) && Objects.equals(price, product.price) && Objects.equals(inventory, product.inventory) && Objects.equals(description, product.description) && gender == product.gender && Objects.equals(sizes, product.sizes) && Objects.equals(color, product.color) && Objects.equals(imageUrl, product.imageUrl) && Objects.equals(reviews, product.reviews) && Objects.equals(category, product.category) && Objects.equals(images, product.images);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, brand, price, inventory, description, gender, discountPercentage, sizes, color, imageUrl, reviews, category, images);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", brand='" + brand + '\'' +
+                ", price=" + price +
+                ", inventory=" + inventory +
+                ", description='" + description + '\'' +
+                ", gender=" + gender +
+                ", discountPercentage=" + discountPercentage +
+                ", sizes=" + sizes +
+                ", color='" + color + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", reviews=" + reviews +
+                ", category=" + category +
+                ", images=" + images +
+                '}';
     }
 }

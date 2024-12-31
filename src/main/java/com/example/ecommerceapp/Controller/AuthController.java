@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.Controller;
 
 
+import com.example.ecommerceapp.Controller.response.AuthResponse;
 import com.example.ecommerceapp.Entity.User;
 import com.example.ecommerceapp.Exceptions.UserException;
 import com.example.ecommerceapp.Repository.UserRepository;

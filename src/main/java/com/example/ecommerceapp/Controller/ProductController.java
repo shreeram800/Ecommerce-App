@@ -17,10 +17,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable Long id) {
@@ -39,7 +35,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProductById(@RequestBody UpdateProductRequest request, @PathVariable Long id) {
-        return ResponseEntity.ok(productService.updateProductById(request, id));
+        return ResponseEntity.ok(productService.updateProduct(request, id));
     }
 
     @GetMapping("/category/{name}")

@@ -1,4 +1,4 @@
-package com.example.ecommerceapp.Controller;
+package com.example.ecommerceapp.Controller.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
