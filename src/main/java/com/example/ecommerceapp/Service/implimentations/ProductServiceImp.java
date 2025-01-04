@@ -1,6 +1,7 @@
 package com.example.ecommerceapp.Service.implimentations;
 
 import com.example.ecommerceapp.Entity.Category;
+import com.example.ecommerceapp.Entity.Enums.Size;
 import com.example.ecommerceapp.Entity.Product;
 import com.example.ecommerceapp.Exceptions.ProductNotFoundException;
 import com.example.ecommerceapp.Repository.CategoryRepo;
@@ -107,44 +108,31 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public Page<Product> getAllProducts(String category, List<String> colors, List<String> sizes, Integer minPrice, Integer maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize) {
+    public Page<Product> getAllProducts(String category, List<String> colors, List<Size> sizes, Integer minPrice, Integer maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize) {
 
-        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        List<Product> products= productRepo.findAllProduct(category,minPrice,maxPrice, minDiscount,sort);
+        List<Product> products = productRepo.findAllProduct(category, minPrice, maxPrice, minDiscount, sort);
 
-        if(!colors.isEmpty()){
-            products=products.stream().filter(p->colors.stream()
-                    .anyMatch(c->c.equalsIgnoreCase(p.getColor())))
+        if (!colors.isEmpty()) {
+            products = products.stream().filter(p -> colors.stream()
+                            .anyMatch(c -> c.equalsIgnoreCase(p.getColor())))
                     .toList();
         }
-        if(stock!=null){
-            if(stock.equals("in_Stock")){
-                products=products.stream().filter(p->p.getInventory()>0).collect(Collectors.toList());
+        if (stock != null) {
+            if (stock.equals("in_Stock")) {
+                products = products.stream().filter(p -> p.getInventory() > 0).collect(Collectors.toList());
             } else if (stock.equals("out_of_stock")) {
                 products = products.stream().filter(p -> p.getInventory() < 1).collect(Collectors.toList());
 
             }
         }
-        int startIndex= (int) pageable.getOffset();
-        int endIndex= Math.min(startIndex+pageable.getPageSize(),products.size());
-        List<Product> pageContent=products.subList(startIndex,endIndex);
+        int startIndex = (int) pageable.getOffset();
+        int endIndex = Math.min(startIndex + pageable.getPageSize(), products.size());
+        List<Product> pageContent = products.subList(startIndex, endIndex);
 
-        Page<Product> filteredProducts= new PageImpl<>(pageContent,pageable,products.size());
-
-        return filteredProducts;
+        return new PageImpl<>(pageContent, pageable, products.size());
     }
-
-    @Override
-    public List<Product> getAllProductsByCategory(String category) {
-        return null;
-    }
-
-    @Override
-    public Product getProductByName(String name) {
-        return null;
-    }
-
     private void validateProductExists(Long id) {
         if (!productRepo.existsById(id)) {
             throw new ProductNotFoundException("Product with ID " + id + " not found");

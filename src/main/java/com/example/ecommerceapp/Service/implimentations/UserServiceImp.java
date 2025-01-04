@@ -5,7 +5,7 @@ import com.example.ecommerceapp.Exceptions.UserException;
 import com.example.ecommerceapp.Repository.UserRepository;
 import com.example.ecommerceapp.Service.UserService;
 import com.example.ecommerceapp.config.JwtProvider;
-import com.example.ecommerceapp.requests.AddCustomerRequest;
+import com.example.ecommerceapp.requests.AddUserRequest;
 import com.example.ecommerceapp.requests.UpdateCustomerRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
@@ -44,7 +44,7 @@ public class UserServiceImp implements UserService {
         return customerRepo.existsUserByEmail(email);
     }
     @Override
-    public User addCustomer(AddCustomerRequest request) {
+    public User addCustomer(AddUserRequest request) {
 
         if(existCustomerByEmail(request.getEmail())){
             throw new IllegalArgumentException("Email already exists..!!");

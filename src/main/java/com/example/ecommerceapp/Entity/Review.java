@@ -20,10 +20,7 @@ public class Review {
     @Column(nullable = false, length = 1000)
     private String comment;
 
-    @Column(nullable = false,name = "reviewer_name")
-    private String reviewerName;
-
-    @Column(nullable = false)
+    @Column
     private int rating;
 
     @ManyToOne
@@ -37,9 +34,8 @@ public class Review {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Review(String comment, String reviewerName, int rating, Product product) {
+    public Review(String comment, int rating, Product product) {
         this.comment = comment;
-        this.reviewerName = reviewerName;
         this.rating = rating;
         this.product = product;
     }
@@ -62,7 +58,6 @@ public class Review {
         return "Review{" +
                 "id=" + id +
                 ", comment='" + comment + '\'' +
-                ", reviewerName='" + reviewerName + '\'' +
                 ", rating=" + rating +
                 ", product=" + product +
                 ", createdAt=" + createdAt +

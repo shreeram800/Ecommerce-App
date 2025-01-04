@@ -1,4 +1,5 @@
 package com.example.ecommerceapp.Service;
+import com.example.ecommerceapp.Entity.Enums.Size;
 import com.example.ecommerceapp.Entity.Product;
 import com.example.ecommerceapp.Exceptions.ProductNotFoundException;
 import com.example.ecommerceapp.requests.AddProductRequest;
@@ -18,10 +19,7 @@ public interface ProductService {
 
     public  Product updateProduct(UpdateProductRequest product, Long id) throws ProductNotFoundException;
 
-    public Page<Product> getAllProducts(String category, List<String> colors, List<String> sizes, Integer minPrice, Integer maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize);
+    public Page<Product> getAllProducts(String category, List<String> colors, List<Size> sizes, Integer minPrice, Integer maxPrice, Integer minDiscount, String sort, String stock, Integer pageNumber, Integer pageSize);
 
-    public  List<Product> getAllProductsByCategory(String category);
-
-    public Product getProductByName(String name);
 
 }

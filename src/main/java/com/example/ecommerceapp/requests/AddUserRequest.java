@@ -6,13 +6,15 @@ import lombok.Data;
 
 
 @Data
-public class AddCustomerRequest {
+public class AddUserRequest {
 
     private String name;
 
     private String surname;
 
     private int age;
+
+    private String password;
 
     private Role role;
 

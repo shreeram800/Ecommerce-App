@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -30,17 +30,17 @@ public class AppConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration cfg = new CorsConfiguration();
-                    cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:4200"));
+                    cfg.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:4200","http://localhost:8080"));
                     cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
                     cfg.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
                     cfg.setAllowCredentials(true);
                     return cfg;
                 }))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/api/auth/**").authenticated()
                         .anyRequest().permitAll()
                 )
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults());
 

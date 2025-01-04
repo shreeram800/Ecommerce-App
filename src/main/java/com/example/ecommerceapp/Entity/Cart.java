@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "cart")
@@ -21,45 +23,38 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cart_id")
-    private List<Product> products;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CartItem> itemsSet = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private User customer;
-
-
-    @Column(nullable = false, name = "created_at")
+    @Column(nullable = false, name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "total_price", nullable = false)
+    private Double totalPrice ;
 
-    @Column(name = "total_price")
-    private Double totalPrice;
+    @Column(name = "total_item", nullable = false)
+    private int totalItem;
 
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "id=" + id +
-                ", products=" + products +
-                ", customer=" + customer +
-                ", createdAt=" + createdAt +
-                ", totalPrice=" + totalPrice +
-                '}';
-    }
+    @Column(name = "total_discounted_price", nullable = false)
+    private Double totalDiscountedPrice;
+
+    @Column(nullable = false)
+    private Double discount ;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cart cart = (Cart) o;
-        return Objects.equals(id, cart.id) && Objects.equals(products, cart.products) && Objects.equals(customer, cart.customer) && Objects.equals(createdAt, cart.createdAt) && Objects.equals(totalPrice, cart.totalPrice);
+        return Objects.equals(id, cart.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, products, customer, createdAt, totalPrice);
+        return Objects.hash(id);
     }
-
 }

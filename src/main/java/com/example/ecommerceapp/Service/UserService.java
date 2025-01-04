@@ -2,7 +2,7 @@ package com.example.ecommerceapp.Service;
 
 import com.example.ecommerceapp.Entity.User;
 import com.example.ecommerceapp.Exceptions.UserException;
-import com.example.ecommerceapp.requests.AddCustomerRequest;
+import com.example.ecommerceapp.requests.AddUserRequest;
 import com.example.ecommerceapp.requests.UpdateCustomerRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -16,7 +16,7 @@ public interface UserService {
 
     User updateCustomer(UpdateCustomerRequest request, Long id);
 
-    User addCustomer(AddCustomerRequest customer);
+    User addCustomer(AddUserRequest customer);
     ResponseEntity<?> deleteCustomer(Long id);
 
     User findUserProfileByJwt(String jwt) throws UserException;
